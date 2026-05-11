@@ -263,6 +263,10 @@ def load_data():
 
 df = load_data()      
 st.write("Current columns:", df.columns.tolist())
+if df is not None and "date" not in df.columns:
+    df["date"] = pd.to_datetime(df["time"]).dt.date
+
+
 
 # ══════════════════════════════════════════════════════════════════
 # SIDEBAR

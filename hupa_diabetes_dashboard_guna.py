@@ -249,30 +249,7 @@ def generate_synthetic(n_patients=25, days=14):
 def load_data():
     data_file  = "cleaned_hupa_diabetes_recent.xlsb"
     demo_file  = "cleaned_demographics.csv"
-    alt_data   = "cleaned_hupa_diabetes_recent.xlsb"
-    alt_data2  = "cleaned_demographics.csv"
-
-    actual = None
-    for fname in [data_file, alt_data, alt_data2]:
-        if os.path.exists(fname):
-            actual = fname
-            break
-
-    if actual:
-        try:
-            df = pd.read_excel(actual, engine="pyxlsb")
-        except Exception:
-            df = generate_synthetic()
-    else:
-        df = generate_synthetic()
-        st.sidebar.info("⚡ Demo mode — using synthetic HUPA-like data.\nAdd your .xlsb file to enable real data.")
-
-    if os.path.exists(demo_file) and "patient_id" in df.columns:
-        try:
-            demo = pd.read_csv(demo_file)
-            df = df.merge(demo, on="patient_id", how="left")
-        except Exception:
-            pass
+  
 
     df["time"] = pd.to_datetime(df["time"], errors="coerce")
     df = df.dropna(subset=["time", "glucose"]).sort_values(["patient_id", "time"])

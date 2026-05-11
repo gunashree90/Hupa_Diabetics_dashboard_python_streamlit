@@ -245,29 +245,39 @@ def generate_synthetic(n_patients=25, days=14):
 # ══════════════════════════════════════════════════════════════════
 # DATA LOADING
 # ══════════════════════════════════════════════════════════════════
+import pandas as pd
+import streamlit as st
+
 @st.cache_data
 def load_data():
-    data_file  = "cleaned_hupa_diabetes_recent.xlsb"
-    demo_file  = "cleaned_demographics.csv"
-  
+    # 1. Define filenames (make sure these are uploaded to your GitHub)
+    data_file = "cleaned_hupa_diabetes_recent1.xlsb"
+    
+    # 2. Read the data (added engine='pyxlsb' for .xlsb files)
+    df = pd.read_excel(data_file, engine='pyxlsb') 
 
+    # 3. Process the data (ensure all these lines are indented)
     df["time"] = pd.to_datetime(df["time"], errors="coerce")
     df = df.dropna(subset=["time", "glucose"]).sort_values(["patient_id", "time"])
+    
     df["date"]       = df["time"].dt.date
     df["hour"]       = df["time"].dt.hour
     df["is_weekend"] = df["time"].dt.dayofweek.isin([5, 6]).astype(int)
     df["is_night"]   = df["hour"].between(0, 5).astype(int)
 
+    # Handle Bolus column
     bolus_col = "bolus_volume_delivered" if "bolus_volume_delivered" in df.columns else "bolus"
     if bolus_col not in df.columns:
         df["bolus_volume_delivered"] = 0.0
         bolus_col = "bolus_volume_delivered"
 
+    # Fill missing columns with 0
     for col in ["carb_input", "basal_rate", "steps", "heart_rate", "calories"]:
         if col not in df.columns:
             df[col] = 0.0
         df[col] = pd.to_numeric(df[col], errors="coerce").fillna(0)
 
+    # Feature Engineering
     df["glucose_roc"] = df.groupby("patient_id")["glucose"].diff()
     df["glucose_rolling_std_1h"] = (
         df.groupby("patient_id")["glucose"].transform(lambda x: x.rolling(12, min_periods=1).std()))
@@ -276,6 +286,7 @@ def load_data():
     df["glucose_smooth"] = (
         df.groupby("patient_id")["glucose"].transform(lambda x: x.rolling(12, min_periods=1).mean()))
 
+    # Flags and Risk Score
     df["tir_flag"]  = ((df["glucose"] >= 70) & (df["glucose"] <= 180)).astype(int)
     df["hypo_flag"] = (df["glucose"] < 70).astype(int)
     df["hyper_flag"]= (df["glucose"] > 180).astype(int)
@@ -287,6 +298,7 @@ def load_data():
 
     return df, bolus_col
 
+# Call the function to initialize your app data
 df, BOLUS = load_data()
 
 # ══════════════════════════════════════════════════════════════════

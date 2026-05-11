@@ -262,6 +262,7 @@ def load_data():
     return df
 
 df = load_data()      
+st.write("Current columns:", df.columns.tolist())
 
 # ══════════════════════════════════════════════════════════════════
 # SIDEBAR

@@ -251,7 +251,7 @@ import streamlit as st
 @st.cache_data
 def load_data():
     # 1. Define filenames (make sure these are uploaded to your GitHub)
-    data_file = "cleaned_hupa_diabetes_recent1.xlsb"
+    data_file = "cleaned_hupa_diabetes_recent.xlsb"
     
     # 2. Read the data (added engine='pyxlsb' for .xlsb files)
     df = pd.read_excel(data_file, engine='pyxlsb') 

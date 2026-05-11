@@ -517,6 +517,14 @@ with tabs[0]:
         )
         st.plotly_chart(styled_chart(fig_hm, 340), use_container_width=True)
 
+fig_trend.add_hrect(
+    y0=0, 
+    y1=hypo_thr, 
+    fillcolor="rgba(248, 113, 113, 0.12)", 
+    line_width=0
+)
+
+
 # ══════════════════════════════════════════════════════════════════
 # TAB 1 — MEAL & BOLUS
 # ══════════════════════════════════════════════════════════════════

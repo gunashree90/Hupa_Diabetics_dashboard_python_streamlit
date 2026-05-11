@@ -175,7 +175,7 @@ hr { border-color: #0E2A4A; margin: 1rem 0; }
 # PLOTLY SHARED THEME
 # ══════════════════════════════════════════════════════════════════
 PT = dict(
-    template="plotly_dark",
+    template="plotly_white",
     paper_bgcolor="#07111F",
     plot_bgcolor="#04080F",
     font=dict(family="Inter, sans-serif", color="#8AAAC8", size=11),

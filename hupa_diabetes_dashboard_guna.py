@@ -247,10 +247,10 @@ def generate_synthetic(n_patients=25, days=14):
 # ══════════════════════════════════════════════════════════════════
 @st.cache_data
 def load_data():
-    data_file  = "E:\NUMPY_NINJA\python_hackathon\cleaned_hupa_diabetes_recent1.xlsb"
-    demo_file  = "E:\NUMPY_NINJA\python_hackathon\HUPA-UC Diabetes Dataset-20250820T010637Z-1-001\HUPA-UC Diabetes Dataset\cleaned_demographics.csv.csv"
-    alt_data   = "E:\NUMPY_NINJA\python_hackathon\cleaned_hupa_diabetes_recent1.xlsb"
-    alt_data2  = "E:\NUMPY_NINJA\python_hackathon\cleaned_hupa_diabetes_recent1.xlsb"
+    data_file  = "cleaned_hupa_diabetes_recent.xlsb"
+    demo_file  = "cleaned_demographics.csv"
+    alt_data   = "cleaned_hupa_diabetes_recent.xlsb"
+    alt_data2  = "cleaned_demographics.csv"
 
     actual = None
     for fname in [data_file, alt_data, alt_data2]:
